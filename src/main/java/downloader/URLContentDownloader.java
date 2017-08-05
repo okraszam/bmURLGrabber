@@ -1,6 +1,5 @@
 package downloader;
 
-import com.mysql.cj.jdbc.Blob;
 import dao.DBArchiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,11 +37,28 @@ public class URLContentDownloader {
             e.printStackTrace();
         }
 
-        DBArchiver.addURLDescriptionToDB(timePartOfName, urlPartOfName, givenURL);
+//        DBArchiver.addURLDescriptionToDB(timePartOfName, urlPartOfName, givenURL);
         LOG.info("Archived URLDescription");
 
-        Blob urlContent = new Blob(downloadDirectory + urlContentPackageName);
-        DBArchiver.addURLContentToDB(urlContent);
+        File urlContent = new File(downloadDirectory
+                                           + File.separator
+                                           + urlContentPackageName);
+        DBArchiver.addURLContentToDB(timePartOfName, urlContent);
+        LOG.info("Archived URLContent: " + urlContentPackageName);
+
+//        URLContentDownloader.deleteURLContentFromTemp(contentDownloadPath);
+
+    }
+
+    private static void deleteURLContentFromTemp (Path contentDownloadPath) {
+
+        try {
+            Files.delete(contentDownloadPath);
+            LOG.info("Deleting URLContent from TEMP");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

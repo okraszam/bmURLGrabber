@@ -13,6 +13,7 @@ public class ContentURLCreator {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+
         return contentURL;
 
     }

@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS bmurlgrabberdb.urldescription
+(
+  id BIGINT(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  dateOfArchivisation VARCHAR(20),
+  shortFormOfURL VARCHAR(50),
+  complereURL VARCHAR(2033)
+);
+INSERT INTO urldescription (dateOfArchivisation, shortFormOfURL, complereURL) VALUES (?,?,?);
+
+
+
+CREATE TABLE IF NOT EXISTS bmurlgrabberdb.urlcontent
+(
+  id BIGINT(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  id_urlDescription BIGINT(20),
+  urlContent MEDIUMBLOB
+);
+INSERT INTO urlcontent (urlContent) VALUES (?);

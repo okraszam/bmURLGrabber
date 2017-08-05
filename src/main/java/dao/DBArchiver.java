@@ -1,36 +1,61 @@
 package dao;
 
-import com.mysql.cj.jdbc.Blob;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class DBArchiver {
 
+    private static Logger LOG = LoggerFactory.getLogger(DBArchiver.class);
+
+    private static final String url = "jdbc:mysql://localhost:3306/bmurlgrabberdb";
+    private static final String user = "root";
+    private static final String password = "";
+    private static DBTableCreator dbTableCreator  = new DBTableCreator();
+    private static DBStatatements dbStatatements = new DBStatatements();
+
     public static void addURLDescriptionToDB (String dateOfArchivisation, String shortFormOfURL, String completeURL) {
 
-        URLDescription urlDescription = new URLDescription(dateOfArchivisation, shortFormOfURL, completeURL);
+        try {
+            Connection connection = DriverManager.getConnection(url, user, password);
+            PreparedStatement preparedStatement = dbStatatements.archiveURLDescriptionStatement(connection,
+                                                                                                dateOfArchivisation,
+                                                                                                shortFormOfURL,
+                                                                                                completeURL);
+            int updatingRow = preparedStatement.executeUpdate();
 
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bmURLGrabberDB");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(urlDescription);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+            if (updatingRow > 0) {
+                LOG.info("New URLDescription has been added to bmURLGrabberDB.");
+            }
+
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public static void addURLContentToDB (Blob urlContent) {
+    public static void addURLContentToDB (String dateOfArchivisation, File urlContent) {
 
-        URLContent urlContentToDB = new URLContent(urlContent);
+        try {
+            Connection connection = DriverManager.getConnection(url, user, password);
+            PreparedStatement preparedStatement = dbStatatements.archiveURLContentStatement(connection, dateOfArchivisation, urlContent);
+            int updatingRow = preparedStatement.executeUpdate();
 
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bmURLGrabberDB");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(urlContent);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+            if (updatingRow > 0) {
+                LOG.info("New URLContent has been added to bmURLGrabberDB.");
+            }
+
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
