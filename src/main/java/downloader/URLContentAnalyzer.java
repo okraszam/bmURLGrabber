@@ -31,7 +31,7 @@ public class URLContentAnalyzer {
         HttpURLConnection httpURLConnection = URLContentAnalyzer.openHttpConnection(givenURL);
         int contentSize = httpURLConnection.getContentLength();
 
-        LOG.info("Size of content file is: " + contentSize + " bytes.");
+        LOG.info("Size of content file is: " + contentSize + " bytes");
 
         httpURLConnection.disconnect();
 

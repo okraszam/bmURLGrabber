@@ -66,7 +66,7 @@ public class bmUserInterface {
                 urlContentDownloader.downloadURLContent(givenURL);
                 return Response.ok("URL Content was successfuly saved."
                                            + "\nContent-type / file size are: " + contentType + " / "
-                                           + contentSize + " bajts").build();
+                                           + contentSize + " bytes.").build();
             } else {
                 return Response.ok("File is too big, maximum content size is 16mb.").build();
             }

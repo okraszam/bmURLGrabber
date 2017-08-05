@@ -6,10 +6,13 @@ import org.slf4j.LoggerFactory;
 import javax.ejb.Stateless;
 import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.net.URL;
+import java.nio.channels.Channel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.concurrent.TimeUnit;
 
 @Stateless
 public class URLContentDownloader {
@@ -24,7 +27,7 @@ public class URLContentDownloader {
         String timePartOfName = URLContentFileNamer.createTimePartOfName();
         String urlPartOfName = URLContentFileNamer.createURLPrtOfName(givenURL);
         String urlContentPartOfName = URLContentFileNamer.createURLContentPartOfName(givenURL);
-        String urlContentPackageName = timePartOfName + "_" + urlPartOfName + "_" + urlContentPartOfName;
+        String urlContentPackageName = timePartOfName + "_" + urlPartOfName + urlContentPartOfName;
 
         Path contentDownloadPath = new File(downloadDirectory
                                                     + File.separator
@@ -37,16 +40,23 @@ public class URLContentDownloader {
             e.printStackTrace();
         }
 
-//        DBArchiver.addURLDescriptionToDB(timePartOfName, urlPartOfName, givenURL);
+        DBArchiver.addURLDescriptionToDB(timePartOfName, urlContentPackageName, givenURL);
         LOG.info("Archived URLDescription");
 
         File urlContent = new File(downloadDirectory
                                            + File.separator
                                            + urlContentPackageName);
+
         DBArchiver.addURLContentToDB(timePartOfName, urlContent);
         LOG.info("Archived URLContent: " + urlContentPackageName);
 
-//        URLContentDownloader.deleteURLContentFromTemp(contentDownloadPath);
+//        urlContent.delete();
+
+//        if (URLContentDownloader.isURLContentClosed(urlContent)) {
+
+//          URLContentDownloader.deleteURLContentFromTemp(contentDownloadPath);
+
+//        }
 
     }
 
@@ -54,9 +64,44 @@ public class URLContentDownloader {
 
         try {
             Files.delete(contentDownloadPath);
-            LOG.info("Deleting URLContent from TEMP");
+            LOG.info("URL content deleted from TEMP");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    private static boolean isURLContentClosed (File urlContent) {
+
+        boolean isFileClosed;
+
+        Channel channel = null;
+        try {
+            channel = new RandomAccessFile(urlContent, "rw").getChannel();
+            isFileClosed = true;
+        } catch(Exception e) {
+            isFileClosed = false;
+        } finally {
+            if(channel!=null) {
+                try {
+                    channel.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if (isFileClosed == false) {
+
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return URLContentDownloader.isURLContentClosed(urlContent);
+        } else {
+            return isFileClosed;
         }
 
     }

@@ -15,21 +15,24 @@ public class DBArchiver {
     private static final String url = "jdbc:mysql://localhost:3306/bmurlgrabberdb";
     private static final String user = "root";
     private static final String password = "";
+
     private static DBTableCreator dbTableCreator  = new DBTableCreator();
     private static DBStatatements dbStatatements = new DBStatatements();
 
-    public static void addURLDescriptionToDB (String dateOfArchivisation, String shortFormOfURL, String completeURL) {
+    public static void addURLDescriptionToDB (String dateOfArchivisation, String contentFileName, String completeURL) {
 
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
-            PreparedStatement preparedStatement = dbStatatements.archiveURLDescriptionStatement(connection,
+            PreparedStatement tableCreationStatement = dbTableCreator.createURLDescriptionTabIfNotExistStatement(connection);
+            PreparedStatement insertionStatement = dbStatatements.archiveURLDescriptionStatement(connection,
                                                                                                 dateOfArchivisation,
-                                                                                                shortFormOfURL,
+                                                                                                contentFileName,
                                                                                                 completeURL);
-            int updatingRow = preparedStatement.executeUpdate();
+            tableCreationStatement.executeUpdate();
+            int updatingRow = insertionStatement.executeUpdate();
 
             if (updatingRow > 0) {
-                LOG.info("New URLDescription has been added to bmURLGrabberDB.");
+                LOG.info("New URLDescription has been added to bmURLGrabberDB");
             }
 
             connection.close();
@@ -44,11 +47,15 @@ public class DBArchiver {
 
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
-            PreparedStatement preparedStatement = dbStatatements.archiveURLContentStatement(connection, dateOfArchivisation, urlContent);
+            PreparedStatement tableCreationStatement = dbTableCreator.createURLContentTabIfNotExistStatement(connection);
+            PreparedStatement preparedStatement = dbStatatements.archiveURLContentStatement(connection,
+                                                                                            dateOfArchivisation,
+                                                                                            urlContent);
+            tableCreationStatement.executeUpdate();
             int updatingRow = preparedStatement.executeUpdate();
 
             if (updatingRow > 0) {
-                LOG.info("New URLContent has been added to bmURLGrabberDB.");
+                LOG.info("New URLContent has been added to bmURLGrabberDB");
             }
 
             connection.close();

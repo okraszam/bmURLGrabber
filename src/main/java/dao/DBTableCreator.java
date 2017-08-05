@@ -6,14 +6,14 @@ import java.sql.SQLException;
 
 public class DBTableCreator {
 
-    PreparedStatement createURLDescriptionTabIfNotExist (Connection connection) {
+    PreparedStatement createURLDescriptionTabIfNotExistStatement (Connection connection) {
 
         StringBuilder tableBuilder = new StringBuilder();
         tableBuilder.append("CREATE TABLE IF NOT EXISTS bmurlgrabberdb.urldescription\n")
                     .append("(\n")
                     .append("id BIGINT(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,\n")
                     .append("dateOfArchivisation VARCHAR(20),\n")
-                    .append("shortFormOfURL VARCHAR(50),\n")
+                    .append("contentFileName VARCHAR(50),\n")
                     .append("completeURL VARCHAR(2033)\n")
                     .append(");\n");
 
@@ -28,7 +28,7 @@ public class DBTableCreator {
 
     }
 
-    PreparedStatement createURLContentTabIfNotExist (Connection connection) {
+    PreparedStatement createURLContentTabIfNotExistStatement (Connection connection) {
 
         StringBuilder tableBuilder = new StringBuilder();
         tableBuilder.append("CREATE TABLE IF NOT EXISTS bmurlgrabberdb.urlcontent\n")

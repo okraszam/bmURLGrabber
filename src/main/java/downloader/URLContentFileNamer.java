@@ -13,11 +13,7 @@ public class URLContentFileNamer {
         String urlPartOfName = URLContentFileNamer.createURLPrtOfName(givenURL);
         String urlContentPartOfName = URLContentFileNamer.createURLContentPartOfName(givenURL);
 
-        if (urlPartOfName.length() > 20) {
-            return timePartOfName + "_" + urlPartOfName.substring(0, 20) + urlContentPartOfName;
-        } else {
-            return timePartOfName + "_" + urlPartOfName + urlContentPartOfName;
-        }
+        return timePartOfName + "_" + urlPartOfName + urlContentPartOfName;
 
     }
 
@@ -31,7 +27,13 @@ public class URLContentFileNamer {
 
     static String createURLPrtOfName (String givenURL) {
 
-        return givenURL.replaceAll("[\\/\\\\:*?<>|.]", "");
+        String urlPartOfName = givenURL.replaceAll("[\\/\\\\:*?<>|.]", "");
+
+        if (urlPartOfName.length() > 20) {
+            return urlPartOfName.substring(0, 20);
+        } else {
+            return urlPartOfName;
+        }
 
     }
 
