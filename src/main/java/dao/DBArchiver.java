@@ -22,7 +22,7 @@ public class DBArchiver {
     public static void addURLDescriptionToDB (String dateOfArchivisation, String contentFileName, String completeURL) {
 
         try {
-            Connection connection = DriverManager.getConnection(url, user, password);
+            Connection connection = DBConnectionBuilder.createConnectionToDB();
             PreparedStatement tableCreationStatement = dbTableCreator.createURLDescriptionTabIfNotExistStatement(connection);
             PreparedStatement insertionStatement = dbStatatements.archiveURLDescriptionStatement(connection,
                                                                                                 dateOfArchivisation,

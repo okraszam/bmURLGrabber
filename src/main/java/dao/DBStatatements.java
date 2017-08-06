@@ -49,5 +49,28 @@ public class DBStatatements {
         return preparedStatement;
     }
 
+    PreparedStatement getURLDescriptionTableLength (Connection connection) {
+
+        String dbName = DBConnectionBuilder.databaseName;
+        String tableName = DBConnectionBuilder.descriptionTableName;
+
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("SELECT COUNT(*) FROM ")
+                    .append(dbName)
+                    .append(".")
+                    .append(tableName + ";");
+
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(queryBuilder.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return preparedStatement;
+
+    }
+
 }
 

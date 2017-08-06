@@ -18,7 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class URLContentDownloader {
 
     private static Logger LOG = LoggerFactory.getLogger(URLContentDownloader.class);
-    private static final String downloadDirectory = "src/main/resources";
+//    private static final String downloadDirectory = "src/main/resources";
+    private static final String downloadDirectory = System.getProperty("jboss.server.temp.dir");
 
     public void downloadURLContent (String givenURL){
 
@@ -50,12 +51,10 @@ public class URLContentDownloader {
         DBArchiver.addURLContentToDB(timePartOfName, urlContent);
         LOG.info("Archived URLContent: " + urlContentPackageName);
 
-//        urlContent.delete();
-
 //        if (URLContentDownloader.isURLContentClosed(urlContent)) {
-
+//
 //          URLContentDownloader.deleteURLContentFromTemp(contentDownloadPath);
-
+//
 //        }
 
     }

@@ -1,4 +1,4 @@
-package dao;
-
-public class DBRemover {
-}
+//package dao;
+//
+//public class DBRemover {
+//}
