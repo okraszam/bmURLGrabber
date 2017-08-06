@@ -10,7 +10,10 @@ import java.sql.SQLException;
 
 public class DBStatatements {
 
-    PreparedStatement archiveURLDescriptionStatement (Connection connection, String dateOfArchivisation, String contentFileName, String complereURL) {
+    PreparedStatement archiveURLDescriptionStatement (Connection connection,
+                                                      String dateOfArchivisation,
+                                                      String contentFileName,
+                                                      String complereURL) {
 
         StringBuilder insertionBuilder = new StringBuilder();
         insertionBuilder.append("INSERT INTO bmurlgrabberdb.urldescription ")
@@ -28,12 +31,15 @@ public class DBStatatements {
 
     }
 
-    PreparedStatement archiveURLContentStatement (Connection connnection, String dateOfArchivisation, File urlContent) {
+    PreparedStatement archiveURLContentStatement (Connection connnection,
+                                                  String dateOfArchivisation,
+                                                  String contentFileName,
+                                                  File urlContent) {
 
         StringBuilder insertionBuilder = new StringBuilder();
         insertionBuilder.append("INSERT INTO bmurlgrabberdb.urlcontent ")
-                        .append("(dateOfArchivisation, urlContent) ")
-                        .append("VALUES ('" + dateOfArchivisation + "', ?);");
+                        .append("(dateOfArchivisation, contentFileName, urlContent) ")
+                        .append("VALUES ('" + dateOfArchivisation + "', '" + contentFileName + "', ?);");
 
         PreparedStatement preparedStatement = null;
         try {
@@ -49,17 +55,16 @@ public class DBStatatements {
         return preparedStatement;
     }
 
-    PreparedStatement getURLDescriptionTableLength (Connection connection) {
+    PreparedStatement getTableLengthStatement(Connection connection) {
 
         String dbName = DBConnectionBuilder.databaseName;
         String tableName = DBConnectionBuilder.descriptionTableName;
 
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("SELECT COUNT(*) FROM ")
+        queryBuilder.append("SELECT COUNT(*) AS total FROM ")
                     .append(dbName)
                     .append(".")
                     .append(tableName + ";");
-
 
         PreparedStatement preparedStatement = null;
         try {

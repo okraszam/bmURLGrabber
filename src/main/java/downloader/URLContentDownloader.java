@@ -48,7 +48,7 @@ public class URLContentDownloader {
                                            + File.separator
                                            + urlContentPackageName);
 
-        DBArchiver.addURLContentToDB(timePartOfName, urlContent);
+        DBArchiver.addURLContentToDB(timePartOfName, urlContentPackageName, urlContent);
         LOG.info("Archived URLContent: " + urlContentPackageName);
 
 //        if (URLContentDownloader.isURLContentClosed(urlContent)) {

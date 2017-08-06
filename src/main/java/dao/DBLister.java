@@ -1,40 +1,51 @@
-package dao;
-
-import dao.util.DBTablePrinter;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class DBLister {
-
-    private static DBStatatements dbStatatements = new DBStatatements();
-
-//    public static int checkCurrentDBRowCount() {
+//package dao;
 //
-//        Connection connection = DBConnectionBuilder.createConnectionToDB();
-//        PreparedStatement currentDBRowCountStatement = dbStatatements.getURLDescriptionTableLength(connection);
+//import dao.util.DBTablePrinter;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+//import javax.ejb.Stateless;
+//import java.sql.Connection;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//import java.sql.Statement;
 //
-//        ResultSet resultSet;
-//        try {
-//            resultSet = currentDBRowCountStatement.executeQuery();
+//@Stateless
+//public class DBLister {
 //
-//            while (resultSet.next()) {
-//                return resultSet.getInt(1);
-//            }
+//    private static Logger LOG = LoggerFactory.getLogger(DBArchiver.class);
+//    private static DBStatatements dbStatatements = new DBStatatements();
 //
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+////    public int checkCurrentDBRowCount() {
+////
+////        int currentDBRowCount = 0;
+////        Connection connection = DBConnectionBuilder.createConnectionToDB();
+////        PreparedStatement currentDBRowCountStatement = dbStatatements.getTableLengthStatement(connection);
+////
+////        ResultSet resultSet;
+////        try {
+////            resultSet = currentDBRowCountStatement.getResultSet();
+////        } catch (SQLException e) {
+////            e.printStackTrace();
+////        }
+////
+////
+////
+////
+////
+////        return currentDBRowCount;
+////
+////    }
 //
-//    }
-
-    public void printEntireBDTable () {
-
-        Connection connection = DBConnectionBuilder.createConnectionToDB();
-//        return DBTablePrinter.printTable(connection, DBConnectionBuilder.descriptionTableName);
-
-    }
-
-}
+////    public String printEntireBDTable () {
+////
+////        Connection connection = DBConnectionBuilder.createConnectionToDB();
+////        DBTablePrinter.printTable(connection, DBConnectionBuilder.descriptionTableName);
+////
+////
+////
+////
+////
+////    }
+//
+//}

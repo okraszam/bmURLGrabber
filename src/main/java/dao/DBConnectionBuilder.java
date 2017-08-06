@@ -10,10 +10,8 @@ public class DBConnectionBuilder {
     public static final String user = "root";
     public static final String password = "";
     public static final String databaseName = "bmurlgrabberdb";
-    public static final String descriptionTableName = "bmurlgrabberdb";
-    public static final String contentTableName = "bmurlgrabberdb";
-
-
+    public static final String descriptionTableName = "urldescription";
+    public static final String contentTableName = "urlcontent";
 
     public static Connection createConnectionToDB () {
 

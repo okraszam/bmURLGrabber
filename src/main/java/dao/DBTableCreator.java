@@ -35,6 +35,7 @@ public class DBTableCreator {
                     .append("(\n")
                     .append("id BIGINT(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,\n")
                     .append("dateOfArchivisation VARCHAR(20),\n")
+                    .append("contentFileName VARCHAR(50),\n")
                     .append("urlContent MEDIUMBLOB\n")
                     .append(");");
 
