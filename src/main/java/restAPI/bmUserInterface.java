@@ -62,7 +62,7 @@ public class bmUserInterface {
                                    + "\n5. Download one of archived URL contents: {your local URL}/bmURLGrabberApp/dbretriever/{dateOfArchivisation} (GET) - comming soon"
                                    + "\n6. Delete one of archived URL contents: {your local URL}/bmURLGrabberApp/dbremoverow/{dateOfArchivisation} (GET) - comming soon"
                                    + "\n7. Welcome screen -> {your local URL}/bmURLGrabberApp/"
-                                   + "\nYou can find description of development enviromnent in file 'bmULRGrabberDevEnv.docx attached to this .war.").build();
+                                   + "\nYou can find description of development enviromnent in file 'bmULRGrabberDevEnv.pdf' attached to this .war.").build();
 
     }
 
@@ -77,11 +77,14 @@ public class bmUserInterface {
 
         if (urlContentAnalyzer.verifyMaxContentSize(contentSize)) {
             urlContentDownloader.downloadURLContent(givenURL);
-            return Response.ok("URL Content was successfuly saved."
-                                       + "\nContent-type / file size: " + contentType + " / "
+            return Response.ok("bmURLGrabberApp, v0.1:"
+                                       + "\n\nURL Content was successfuly saved."
+                                       + "\nContent-type | file size: " + contentType + " | "
                                        + contentSize + " bytes.").build();
         } else {
-            return Response.ok("File is too big, maximum content size is 16mb.").build();
+            return Response.ok("bmURLGrabberApp, v0.1:"
+                                       + "\n\nFile is too big, maximum content size is 16mb."
+                                       + "\nPlease try with another URL.").build();
         }
 
     }
